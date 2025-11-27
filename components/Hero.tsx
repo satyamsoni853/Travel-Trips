@@ -6,7 +6,13 @@ import Link from "next/link"; // Changed Button import to Link for simplicity/po
 import { useTheme } from "../app/ThemeContext"; 
 
 // A simple button/link component to handle styling consistency
-const CustomButton = ({ title, variant, href = "#" }) => {
+type CustomButtonProps = {
+    title: string;
+    variant?: string;
+    href?: string;
+};
+
+const CustomButton: React.FC<CustomButtonProps> = ({ title, variant, href = "#" }) => {
     // Determine base classes based on variant, ensuring responsiveness and hover effects
     let baseClasses = "rounded-full font-semibold px-8 py-3 transition duration-300 transform hover:scale-[1.02] shadow-lg";
     let activeClasses = "";
@@ -243,7 +249,7 @@ const Hero = () => {
                         </div>
 
                         {/* FLOATING LOCATION BADGE (Bottom Left) */}
-                        <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-left-10 flex gap-2 rounded-full py-2 px-4 shadow-xl ${badgeBgClass} ${isDarkMode ? 'text-white' : 'text-gray-900'} animate-float-delay`} style={{ animationDuration: '4.5s' }}>
+                        <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 md:translate-x-0 md:-left-10 flex gap-2 rounded-full py-2 px-4 shadow-xl ${badgeBgClass} ${isDarkMode ? 'text-white' : 'text-gray-900'} animate-float-delay`} style={{ animationDuration: '4.5s' }}>
                             <svg className="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 12c0-4.41-3.59-8-8-8S4 7.59 4 12s3.59 8 8 8 8-3.59 8-8zm-8 6c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
                             <p className="font-semibold text-sm">Top 10 Places</p>
                         </div>

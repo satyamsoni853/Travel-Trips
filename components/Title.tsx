@@ -6,6 +6,10 @@ type TitleProps = {
     // New optional props for theme-aware styling
     titleColor?: string;
     subtitleColor?: string;
+    // Backwards-compatible props used across the codebase
+    isDarkMode?: boolean;
+    textColor?: string;
+    className?: string;
 }
 
 const Title = ({ 
@@ -13,12 +17,17 @@ const Title = ({
     subtitle, 
     // Set defaults that look good in both themes if not overridden
     titleColor = "text-pink-600 dark:text-purple-400", 
-    subtitleColor = "text-gray-900 dark:text-white" 
+    subtitleColor = "text-gray-900 dark:text-white",
+    isDarkMode,
+    textColor,
+    className
 }: TitleProps) => {
     
     // Use the provided class names or the default fallback class names
     const finalTitleClass = `${titleColor} uppercase text-lg font-bold tracking-widest`;
-    const finalSubtitleClass = `${subtitleColor} lg:text-5xl xs:text-4xl font-bold leading-[60px]`;
+    // If `textColor` was passed (legacy), prefer it for subtitle color
+    const effectiveSubtitleColor = textColor ? textColor : subtitleColor;
+    const finalSubtitleClass = `${effectiveSubtitleColor} lg:text-5xl xs:text-4xl font-bold leading-[60px] ${className ? className : ''}`;
 
     return (
         <div className='flex flex-col gap-1'>

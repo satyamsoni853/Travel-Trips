@@ -1,9 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, ReactNode } from "react";
 import Image from "next/image";
 
 // Utility component for subtle animation (Fade-in/Slide-up)
-const AnimatedDiv = ({ children, delay = "delay-0" }) => (
+const AnimatedDiv: React.FC<{ children: ReactNode; delay?: string }> = ({ children, delay = "delay-0" }) => (
   <div
     className={`opacity-0 animate-fadeInUp ${delay} transition-all duration-700 ease-out`}
   >

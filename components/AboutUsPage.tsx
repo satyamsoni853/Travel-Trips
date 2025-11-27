@@ -53,7 +53,16 @@ const FOOTER_DATA = {
 
 
 // --- Timeline Item Component (Re-added for context) ---
-const TimelineItem = ({ icon: Icon, title, description, accentColor, isDarkMode, side }) => {
+type TimelineItemProps = {
+    icon: React.ComponentType<any>;
+    title: string;
+    description: string;
+    accentColor?: string;
+    isDarkMode: boolean;
+    side?: 'left' | 'right' | string;
+};
+
+const TimelineItem = ({ icon: Icon, title, description, accentColor, isDarkMode, side }: TimelineItemProps) => {
     const isLeft = side === 'left';
     const timelineContainerClasses = "relative group mb-12 min-h-[100px]";
     const contentBoxClasses = `p-5 rounded-lg shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] 
@@ -119,13 +128,12 @@ const AboutUsPage = () => {
       
       {/* 1. Hero / Title Section */}
       <div className={`px-4 sm:px-6 lg:px-8 py-20 lg:py-32 ${primaryBg} text-center shadow-lg`}>
-        <Title
-          title={ABOUT_DATA.company_name}
-          subtitle={ABOUT_DATA.tagline}
-          isDarkMode={isDarkMode}
-          textColor={primaryText}
-          className="text-5xl lg:text-7xl font-extrabold"
-        />
+            <Title
+                title={ABOUT_DATA.company_name}
+                subtitle={ABOUT_DATA.tagline}
+                titleColor={headingColor}
+                subtitleColor={primaryText}
+            />
         <p className={`${primaryText} font-light leading-relaxed text-lg sm:text-xl mt-6 max-w-4xl mx-auto opacity-90`}>
           {ABOUT_DATA.history.story_start}
         </p>
