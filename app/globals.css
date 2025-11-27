@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .max-container {
+    @apply mx-auto max-w-full;
+  }
+
+  .padding-container {
+    @apply px-14;
+  }
+
+  .flexCenter {
+    @apply flex items-center justify-center;
+  }
+
+  .navbar-scroll {
+    background: rgba(255,255,255, 0.9); /* Set your desired background color */
+    width: 100vw;
+  }
+
+  /* Brand colors: navy + sun yellow */
+  .text_pink {
+    /* legacy class name preserved; maps to brand navy */
+    @apply text-[#0b3b82];
+  }
+
+  .text_orange {
+    /* accent sun color */
+    @apply text-[#FFB400];
+  }
+
+  .text_black {
+    @apply text-[#191825];
+  }
+
+
+
+  .btn_purple {
+    /* kept class name for compatibility — now uses brand gradient */
+    @apply px-8 py-3 text-white transition-all;
+    background-image: linear-gradient(90deg, #0b3b82 0%, #FFB400 100%);
+    background-size: 200% 200%;
+  }
+
+  .btn_outline_black {
+    @apply border-black border-opacity-20 px-4 py-3 text-[#0b3b82];
+  }
+
+  .btn_white {
+    @apply border-none px-4 py-3;
+  }
+
+  .bold-16 {
+    @apply text-[16px] font-[600];
+  }
+
+  .bg-hero {
+    background-image: url('/earth.png');
+    background-repeat: no-repeat;
+    background-position: top;
+    position: absolute;
+    /*@apply absolute right-0 top-0 h-screen w-screen bg-cover bg-center md:right-[-15%] xl:top-[-10%];*/
+  }
+
+  .bg-testimonial {
+    background: url('/bg-testimonial.png') no-repeat center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  /* utility: tint an image to brand navy using CSS filter */
+  .img-tint-navy {
+    filter: grayscale(1) sepia(1) saturate(600%) hue-rotate(195deg) brightness(0.95);
+  }
+}
+
+.newsletter {
+  letter-spacing: 3px;
+}
+
+.shadow {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.shadow-2 {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+  .gradient-purple {
+  /* renamed gradient utility now matches brand — still named gradient-purple for compatibility */
+  background: linear-gradient(50deg, #0b3b82 0%, #FFB400 100%);
+}
+
+/* Hero */
+.circle-pink {
+  width: 700px;
+  height: 700px;
+  border-radius: 30%;
+  position: absolute;
+  transform: rotate(50deg);
+  background: rgb(255,211,198);
+  background: linear-gradient(90deg, rgba(255,211,198,1) 0%, rgba(255,87,34,0.19380252100840334) 22%, rgba(255,255,255,0) 100%);
+
+}
+
+.circle-yellow {
+  width: 600px;
+  height: 600px;
+  border-radius: 40%;
+  position: absolute;
+  transform: rotate(-120deg);
+  background: rgb(255,242,201);
+  background: linear-gradient(50deg, rgba(255,242,201,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+/* Dark-mode adjustments: dim or remove the light decorative circles so background stays pure/darker */
+.dark .circle-pink {
+  /* Use a subtle, dark-tinted gradient or reduce visibility */
+  background: linear-gradient(90deg, rgba(30,41,59,0.12) 0%, rgba(99,102,241,0.04) 22%, rgba(0,0,0,0) 100%);
+}
+
+.dark .circle-yellow {
+  background: linear-gradient(50deg, rgba(55,65,81,0.10) 0%, rgba(0,0,0,0) 100%);
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #0b3b82 !important;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
