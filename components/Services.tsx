@@ -76,7 +76,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="relative max-container padding-container flex md:flex-row xs:flex-col py-12 gap-10">
+    <section className="relative max-container padding-container flex md:flex-row xs:flex-col py-5 mt-10 gap-10">
       
       {/* STATIC LEFT SECTION */}
       <div className="left xs:w-full md:w-2/5 flex flex-col justify-center">

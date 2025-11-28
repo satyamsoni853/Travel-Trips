@@ -19,8 +19,8 @@ const TravelPoint = () => {
   const IMAGE_SRC = "/airplane.jpg"; // actual file found in `public/`
 
   return (
-    <section className="relative max-w-7xl mx-auto px-6 py-5 mb-10 overflow-hidden dark:bg-gray-900 transition-colors duration-500">
-      <div className="flex flex-col lg:flex-row items-center gap-20">
+    <section className="relative max-w-10xl mx-auto px-6 py-5 mb-10 overflow-hidden dark:bg-gray-900 transition-colors duration-500">
+      <div className="flex flex-col-reverse lg:flex-row items-center gap-20">
         {/* LEFT — Large Image */}
         <div className="relative w-full lg:w-1/2 flex justify-center lg:justify-start transform translate-x-[-20px] opacity-0 animate-slideInLeft transition-all duration-1000 ease-out">
           <div className="relative w-full max-w-[650px] h-[520px] rounded-[35px] overflow-hidden shadow-2xl">

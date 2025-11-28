@@ -8,7 +8,7 @@
   }
 
   .padding-container {
-    @apply px-14;
+    @apply px-10;
   }
 
   .flexCenter {
