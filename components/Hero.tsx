@@ -40,7 +40,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ title, variant, href = "#" 
 };
 
 
-// Custom Keyframes (We define these using a style tag since we can't use a separate CSS file)
+// Custom Keyframes and Global Styles for animations
 const CustomStyles = () => (
     <style jsx global>{`
         /* Custom floating animation */
@@ -93,6 +93,23 @@ const CustomStyles = () => (
             animation: slideInUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
+        /* NEW: Plane movement animation for background */
+        @keyframes planeBackgroundMove {
+            0% {
+                transform: translate(-100vw, var(--start-y)) rotate(var(--rotation));
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.1;
+            }
+            90% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translate(100vw, var(--end-y)) rotate(var(--rotation));
+                opacity: 0;
+            }
+        }
     `}</style>
 );
 
@@ -110,6 +127,24 @@ const Hero = () => {
         "/frame2.png",
         "/frame3.png",
     ];
+
+    // Plane configurations - Expanded to 10 golden planes
+    // UPDATED: Increased 'size' values for larger planes.
+    const planeConfigs = [
+        { size: '20px', color: 'text-yellow-400', rotation: '-5deg', startY: '20vh', endY: '50vh', duration: 25, delay: 0 },
+        { size: '15px', color: 'text-yellow-300', rotation: '15deg', startY: '80vh', endY: '10vh', duration: 30, delay: 3 },
+        { size: '23px', color: 'text-yellow-500', rotation: '5deg', startY: '5vh', endY: '40vh', duration: 20, delay: 8 },
+        { size: '17px', color: 'text-yellow-600', rotation: '-10deg', startY: '60vh', endY: '0vh', duration: 35, delay: 13 },
+        
+        // New 6 Planes
+        { size: '19px', color: 'text-yellow-400', rotation: '20deg', startY: '15vh', endY: '70vh', duration: 22, delay: 18 },
+        { size: '14px', color: 'text-yellow-300', rotation: '-15deg', startY: '90vh', endY: '20vh', duration: 28, delay: 2 },
+        { size: '25px', color: 'text-yellow-500', rotation: '10deg', startY: '0vh', endY: '55vh', duration: 40, delay: 10 },
+        { size: '16px', color: 'text-yellow-600', rotation: '-25deg', startY: '75vh', endY: '-5vh', duration: 45, delay: 25 },
+        { size: '21px', color: 'text-yellow-400', rotation: '3deg', startY: '30vh', endY: '60vh', duration: 27, delay: 6 },
+        { size: '18px', color: 'text-yellow-500', rotation: '-8deg', startY: '45vh', endY: '5vh', duration: 32, delay: 16 },
+    ];
+
 
     // Image carousel logic
     useEffect(() => {
@@ -151,6 +186,24 @@ const Hero = () => {
                 <div className="absolute top-0 left-0 h-48 w-48 bg-purple-500/20 rounded-full filter blur-3xl" />
                 <div className="absolute bottom-0 right-0 h-64 w-64 bg-pink-500/20 rounded-full filter blur-3xl" />
             </div>
+
+            {/* 10 Small moving planes in the background (Golden) */}
+            {planeConfigs.map((plane, index) => (
+                <div 
+                    key={index}
+                    className={`fixed top-0 left-0 ${plane.color} z-1 opacity-0`}
+                    style={{
+                        fontSize: plane.size,
+                        '--start-y': plane.startY,
+                        '--end-y': plane.endY,
+                        '--rotation': plane.rotation,
+                        animation: `planeBackgroundMove ${plane.duration}s linear infinite ${plane.delay}s`,
+                    } as React.CSSProperties}
+                >
+                    ✈️
+                </div>
+            ))}
+
 
             <div className="padding-container flex flex-col xl:flex-row items-center justify-between gap-16 xl:gap-0 relative z-10">
 
@@ -206,7 +259,7 @@ const Hero = () => {
                         
                         {/* Background Decorative Element (The back frame) */}
                         <div className={`absolute inset-0 rounded-[3rem] transition-colors duration-500 ${
-                            isDarkMode ? 'bg-gray-800/70 border-gray-700 border-4 shadow-xl' : 'bg-white/70 border-gray-100 border-4 shadow-2xl'
+                            isDarkMode ? 'bg-gray-800/50 border border-gray-700/50 shadow-xl' : 'bg-white/70 border-gray-100 border-4 shadow-2xl'
                         } transform rotate-3 scale-[1.05]`} />
 
                         {/* Image Carousel */}
@@ -219,7 +272,7 @@ const Hero = () => {
                                 width={750} 
                                 height={750}
                                 className={`absolute inset-0 w-full h-full rounded-[3rem] object-cover transition-all duration-1000 ease-in-out border-4 ${
-                                    isDarkMode ? 'border-gray-900 shadow-2xl' : 'border-white shadow-2xl'
+                                    isDarkMode ? 'border-gray-700/50 shadow-2xl' : 'border-white shadow-2xl'
                                 } ${
                                     currentImage === index
                                         ? "opacity-100 scale-100"
@@ -237,21 +290,21 @@ const Hero = () => {
                         {/* FLOATING ICONS & BADGE */}
                         
                         {/* Map Icon (Top Left) */}
-                        <div className={`absolute -top-4 -left-4 p-3 rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-xl animate-float transition-all duration-300 hover:scale-110 cursor-pointer`}>
+                        <div className={`absolute -top-4 -left-4 sm:-top-6 sm:-left-6 p-2 sm:p-3 rounded-full ${isDarkMode ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-white'} shadow-xl animate-float transition-all duration-300 hover:scale-110 cursor-pointer`}>
                             {/* Inline SVG Map Pin */}
-                            <svg className="h-6 w-6 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            <svg className="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                         </div>
                         
                         {/* People Icon (Bottom Right) */}
-                        <div className={`absolute -bottom-4 -right-4 p-3 rounded-full ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-xl animate-float-delay transition-all duration-300 hover:scale-110 cursor-pointer`}>
-                             {/* Inline SVG Users */}
-                            <svg className="h-6 w-6 text-pink-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-4 0c1.66 0 2.99-1.34 2.99-3S13.66 5 12 5s-3 1.34-3 3 1.34 3 3 3zM8 13c-2.21 0-4 1.79-4 4v2h16v-2c0-2.21-1.79-4-4-4H8z"/></svg>
+                        <div className={`absolute -bottom-4 -right-4 sm:-bottom-6 sm:-right-6 p-2 sm:p-3 rounded-full ${isDarkMode ? 'bg-gray-800/50 border border-gray-700/50' : 'bg-white'} shadow-xl animate-float-delay transition-all duration-300 hover:scale-110 cursor-pointer`}>
+                             {/* Inline SVG Users */}
+                            <svg className="h-5 w-5 sm:h-6 sm:w-6 text-pink-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-4 0c1.66 0 2.99-1.34 2.99-3S13.66 5 12 5s-3 1.34-3 3 1.34 3 3 3zM8 13c-2.21 0-4 1.79-4 4v2h16v-2c0-2.21-1.79-4-4-4H8z"/></svg>
                         </div>
 
                         {/* FLOATING LOCATION BADGE (Bottom Left) */}
-                        <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 md:translate-x-0 md:-left-10 flex gap-2 rounded-full py-2 px-4 shadow-xl ${badgeBgClass} ${isDarkMode ? 'text-white' : 'text-gray-900'} animate-float-delay`} style={{ animationDuration: '4.5s' }}>
-                            <svg className="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 12c0-4.41-3.59-8-8-8S4 7.59 4 12s3.59 8 8 8 8-3.59 8-8zm-8 6c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
-                            <p className="font-semibold text-sm">Top 10 Places</p>
+                        <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 sm:-bottom-14 sm:-left-12 sm:translate-x-0 flex gap-2 rounded-full py-2 px-3 sm:px-4 shadow-xl text-xs sm:text-sm ${badgeBgClass} ${isDarkMode ? 'text-white' : 'text-gray-900'} animate-float-delay`} style={{ animationDuration: '4.5s' }}>
+                            <svg className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 12c0-4.41-3.59-8-8-8S4 7.59 4 12s3.59 8 8 8 8-3.59 8-8zm-8 6c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+                            <p className="font-semibold">Top 10 Places</p>
                         </div>
 
 

@@ -19,14 +19,14 @@ const ServiceCard = ({ icon, title, subtitle, isDarkMode }: ServiceCardProps) =>
     ? "bg-gray-800/50 border border-gray-700/50" // Soft dark background
     : "bg-white/50 border border-gray-200/50"; // Soft light background
   
-  const iconBgClass = isDarkMode ? "bg-purple-900/40" : "bg-blue-50/70";
+  const iconBgClass = isDarkMode ? "bg-purple-900/40" : "bg-purple-50/70";
   const titleColorClass = isDarkMode ? "text-white" : "text-gray-900";
   const subtitleColorClass = isDarkMode ? "text-gray-400" : "text-gray-600";
   
   // Custom hover shadow for a more polished look
   const hoverShadowClass = isDarkMode 
     ? "shadow-xl shadow-purple-500/10" 
-    : "shadow-xl shadow-blue-500/10";
+    : "shadow-xl shadow-purple-500/10";
 
   return (
     <div
@@ -60,10 +60,10 @@ const Services = () => {
   
   // Theme-aware classes for the static part
   const titleColor = isDarkMode ? "text-white" : "text-gray-900";
-  const subtitleColor = isDarkMode ? "text-purple-400" : "text-blue-600";
+  const subtitleColor = isDarkMode ? "text-purple-400" : "text-purple-600";
   const buttonBgClass = isDarkMode 
     ? "bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-500/30" 
-    : "bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30";
+    : "bg-purple-600 hover:bg-purple-700 shadow-lg shadow-purple-500/30";
 
   const services = [
     { icon: "/destination.png", title: "Group Travel", subtitle: "Are you planning a group tour? We offer the best group, wedding, and sports fares." },

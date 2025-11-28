@@ -10,12 +10,12 @@ export default function Home() {
   return (
     <>
       <Hero />
-      {/* <Sponsor /> */}
-      {/* <Services /> */}
-      {/* <Destination /> */}
-      {/* <TravelPoint /> */}
-      {/* <Features /> */}
-      {/* <Newsletter /> */}
+      <Sponsor />
+      <Services />
+      <Destination />
+      <TravelPoint />
+      <Features />
+      <Newsletter />
     </>
   );
 }

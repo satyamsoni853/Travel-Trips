@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Users, Briefcase, Heart, Plane, Shield, Sun, Moon } from "lucide-react"; 
+import { Users, Briefcase, Heart, Plane, Shield, Sun, Moon, Landmark } from "lucide-react"; 
 import { useTheme } from "../app/ThemeContext"; 
 import Title from "./Title"; 
 

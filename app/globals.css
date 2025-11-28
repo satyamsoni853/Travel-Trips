@@ -140,3 +140,12 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+@keyframes plane-move {
+    0% { transform: translateX(0) rotate(90deg); } /* Start on the left */
+    100% { transform: translateX(calc(100% - 24px)) rotate(90deg); } /* Move to the right edge. Plane icon is 24px wide (w-6). */
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(45deg); }
+    50% { transform: translateY(-10px) rotate(45deg); }
+}

@@ -12,25 +12,26 @@ const Footer = () => {
   const textColorClass = isDarkMode ? "text-gray-300" : "text-gray-900";
 
   return (
-    <footer className={`relative max-container padding-container py-20 flex xs:gap-8 lg:gap-16 xs:flex-col lg:flex-row ${footerBgClass} ${textColorClass}`}>
+    <footer className={`relative max-container padding-container py-12 sm:py-20 flex gap-8 lg:gap-16 flex-col lg:flex-row ${footerBgClass} ${textColorClass}`}>
       {/* Decorative Object - Ensure it works in dark mode or swap the image */}
+      {/* NOTE: If /footer-object.png doesn't exist, this will render a broken image icon. */}
       <Image
-        className="absolute right-[-4%] xs:top-0 lg:top-[-20%] opacity-50" // Added opacity for less visual intrusion
+        className="absolute right-[-4%] top-0 lg:top-[-20%] opacity-50 pointer-events-none" 
         src="/footer-object.png"
         alt="object"
         width={100}
         height={100}
       />
 
-      <div className="flex flex-col gap-12 lg:w-1/3">
+      <div className="flex flex-col gap-8 lg:w-1/3">
         {/* LOGO & TEXT */}
         <div className="flex flex-col gap-4">
           <div className="logo flex items-center gap-2">
-            {/* You might want a dark mode version of the logo here */}
+            {/* NOTE: If /travel-logo.png doesn't exist, this will render a broken image icon. */}
             <Image src="/travel-logo.png" alt="logo" width={90} height={90} />
           </div>
 
-          <p className="text-sm opacity-70">
+          <p className="text-sm opacity-70 max-w-sm">
             Sunspots connects travelers to extraordinary destinations with
             exclusive deals and effortless planning for every type of adventure.
           </p>
@@ -38,7 +39,7 @@ const Footer = () => {
 
         {/* SOCIAL MEDIA */}
         <div className="social flex gap-4">
-          {/* Social icons are images; animation added to the Link wrapper */}
+          {/* NOTE: Image paths below are assumed to be correct in your environment */}
           <Link href="/" className="transition-transform duration-300 hover:scale-110">
             <Image src="/fb.png" alt="facebook" width={30} height={30} />
           </Link>
@@ -56,8 +57,8 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* LINK FOOTER */}
-      <div className="right lg:w-2/3 flex xs:flex-col md:flex-row xs:gap-10 md:gap-0 md:justify-between">
+      {/* LINK FOOTER - NEW DENSE GRID LAYOUT FOR MOBILE */}
+      <div className="lg:w-2/3 grid grid-cols-2 gap-y-8 gap-x-4 sm:grid-cols-3 md:gap-x-8 lg:gap-x-12">
         <FooterCard
           title="Company"
           link1="About Us"
@@ -95,7 +96,7 @@ interface FooterCardProps {
   link2: string;
   link3: string;
   link4?: string;
-  isDarkMode: boolean; // Added prop for theme
+  isDarkMode: boolean; 
 }
 
 const FooterCard = ({ title, link1, link2, link3, link4, isDarkMode }: FooterCardProps) => {
@@ -108,12 +109,12 @@ const FooterCard = ({ title, link1, link2, link3, link4, isDarkMode }: FooterCar
 
   return (
     <div className="flex flex-col gap-4">
-      <h3 className={`text-2xl font-bold ${titleColorClass}`}>{title}</h3>
-      <ul className="flex flex-col gap-4 mt-4">
+      <h3 className={`text-xl sm:text-2xl font-bold ${titleColorClass}`}>{title}</h3>
+      <ul className="flex flex-col gap-2 mt-2"> {/* Reduced vertical gap on mobile */}
         {links.map((linkText, index) => (
           <Link 
             key={index}
-            className={`text-base transition-colors duration-200 ${linkTextColorClass}`} 
+            className={`text-sm sm:text-base transition-colors duration-200 ${linkTextColorClass}`} 
             href="/"
           >
             {linkText}

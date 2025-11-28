@@ -44,8 +44,13 @@ const FooterSection: React.FC<FooterSectionProps> = ({
     footerAccentIconColor,
     footerAccentHover,
 }) => {
+    // 💡 FIX 1: Explicitly set the background class. Use 'bg-black' for dark mode, otherwise use the provided prop.
+    const backgroundClass = isDarkMode ? 'bg-black' : footerBg;
+
     return (
-        <footer className={`py-12 ${footerBg} shadow-inner ${isDarkMode ? 'shadow-black/50' : 'shadow-purple-200/50'} transition-colors duration-500`}>
+        // 💡 FIX 2: Apply the corrected background class and fix the original misplaced quote bug.
+        // The conditional for shadow is now correct: 'shadow-black/50' vs 'shadow-purple-700/30'
+        <footer className={`py-12 ${backgroundClass} shadow-inner ${isDarkMode ? 'shadow-black/50' : 'shadow-purple-700/30'} transition-colors duration-500`}>
             <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                     
@@ -76,9 +81,19 @@ const FooterSection: React.FC<FooterSectionProps> = ({
                     {/* Column 2: Map Embed */}
                     <div className="md:col-span-2">
                         <h4 className={`text-xl font-bold mb-5 ${footerTitleColor} border-b ${isDarkMode ? 'border-purple-700' : 'border-purple-200'} pb-2`}>🗺️ Find Us</h4>
-                        <div className="h-48 w-full rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-[1.01]">
-                            {/* Placeholder for the Map component */}
-                            
+                        {/* 💡 FIX 3: Added a colored shadow (shadow-purple-900/40) for better visibility and included the map iframe. */}
+                        <div className="h-48 w-full rounded-xl overflow-hidden shadow-xl transition-all duration-300 hover:scale-[1.01] shadow-purple-900/40">
+                            {/* NOTE: Replace this src with your actual Google Maps embed iframe src for the correct location. */}
+                            <iframe 
+                                title="Office Location"
+                                src={`https://maps.google.com/maps?q=${encodeURIComponent(footerData.address.fullAddress)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen={false}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            ></iframe>
                         </div>
                     </div>
                     

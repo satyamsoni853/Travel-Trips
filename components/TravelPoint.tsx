@@ -32,7 +32,7 @@ const TravelPoint = () => {
             />
           </div>
           {/* Decorative element (optional design flair) */}
-          <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-200 rounded-full opacity-50 blur-3xl z-[-1]"></div>
+          <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-purple-200 rounded-full opacity-50 blur-3xl z-[-1]"></div>
         </div>
 
         {/* RIGHT — Content Section (Remaining code is the same dark mode fix) */}
@@ -41,14 +41,14 @@ const TravelPoint = () => {
           <AnimatedDiv delay="delay-100">
             <div className="space-y-4">
               {/* Travel Point text */}
-              <span className="text-blue-600 font-semibold text-lg uppercase tracking-[0.25em] block dark:text-blue-400">
+              <span className="text-purple-600 font-semibold text-lg uppercase tracking-[0.25em] block dark:text-purple-400">
                 Travel Point
               </span>
 
               {/* Title - Increased contrast for better readability */}
               <h2 className="text-[3rem] md:text-[3.4rem] font-black text-gray-900 leading-[1.1] mt-1 dark:text-white">
                 Helping You Discover Your{" "}
-                <span className="text-blue-500 dark:text-blue-300">
+                <span className="text-purple-500 dark:text-purple-300">
                   Dream Destination
                 </span>
               </h2>
@@ -122,15 +122,15 @@ const StatCard = ({ number, label }: StatCardProps) => {
 
   // Conditional classes for toggling and dark mode
   const cardClasses = isActive
-    ? "bg-blue-500 border-blue-500 text-white shadow-xl scale-[1.03]" // Active state styles
-    : "bg-gradient-to-br from-blue-50 to-white border-blue-100 shadow-sm group-hover:shadow-lg group-hover:scale-105 dark:from-gray-700 dark:to-gray-800 dark:border-gray-600 dark:hover:border-blue-400"; // Default/Hover/Dark mode styles
+    ? "bg-purple-500 border-purple-500 text-white shadow-xl scale-[1.03]" // Active state styles
+    : "bg-gradient-to-br from-purple-50 to-white border-purple-100 shadow-sm group-hover:shadow-lg group-hover:scale-105 dark:from-gray-700 dark:to-gray-800 dark:border-gray-600 dark:hover:border-purple-400"; // Default/Hover/Dark mode styles
 
   const numberClasses = isActive
     ? "text-white" // Toggled text color: White
-    : "text-blue-500 group-hover:text-blue-600 dark:text-blue-400 dark:group-hover:text-blue-300"; // Default/Hover/Dark mode text color
+    : "text-purple-500 group-hover:text-purple-600 dark:text-purple-400 dark:group-hover:text-purple-300"; // Default/Hover/Dark mode text color
 
   const labelClasses = isActive
-    ? "text-blue-100" // Toggled label color: Light Blue
+    ? "text-purple-100" // Toggled label color: Light Purple
     : "text-gray-800 dark:text-gray-300"; // Default/Dark mode label color
 
   return (
