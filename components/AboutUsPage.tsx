@@ -324,7 +324,7 @@ const AboutUsPage = () => {
 
       {/* 1. Hero / Title Section */}
       <div
-        className={`px-4 sm:px-6 lg:px-8 py-20 lg:py-32 text-center shadow-2xl ${ // Added text-center here
+        className={`px-4 sm:px-6 lg:px-8 py-20 lg:py-32 mt-20 sm:mt-24 text-center shadow-2xl ${
           isDarkMode ? "shadow-purple-900/50" : "shadow-purple-200/50"
         } transition-colors duration-500 relative z-10`}
       >
