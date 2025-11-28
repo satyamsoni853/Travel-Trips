@@ -20,9 +20,9 @@ const Sponsor = ({
     : "bg-white/50 border border-gray-200/50"; // Transparent/Light background with light border
 
   // Logo Invert for Dark Mode (Hypothetical: assumes logos are dark and need inversion)
-  const logoFilterClass = isDarkMode
-    ? "filter brightness-0 invert opacity-75" // Makes dark logos light/white
-    : "opacity-70 hover:opacity-100"; // Slight fade in light mode
+const logoFilterClass = isDarkMode
+    ? "opacity-75" // No inversion needed since card background is light
+    : "opacity-70 hover:opacity-100";
 
   const sponsors = [
     { src: "/sponsor1.png", alt: "American Airlines" },
