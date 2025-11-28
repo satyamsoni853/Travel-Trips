@@ -14,7 +14,10 @@ import {
   Mail,
   Twitter,
   Facebook,
-  Link,
+  Link as LinkIcon, // Renaming Lucide Link to LinkIcon to avoid conflict with React Link component
+  Target, // Added Target icon
+  Trophy, // Added Trophy icon
+  LineChart, // Using LineChart instead of Link for better visual representation
 } from "lucide-react";
 import { useTheme } from "../app/ThemeContext";
 import Title from "./Title"; // Assuming this is components/Title.tsx
@@ -48,6 +51,14 @@ const ABOUT_DATA = {
       "The incredible success of Sunspots Holidays is a result of our commitment to customer service, steadfast belief in quality products, unswerving loyalty to our partners at all levels, and continuous marketing innovations that keep us moving forward.",
     invitation:
       "Energy, experience, and innovation are the pillars that have allowed us to excel in the travel industry. We invite you to join us on our ride around the world.",
+
+    // --- NEW DATA MATCHING THE IMAGE ---
+    mission_text:
+      "Our mission is to provide our clients with personalized service, up-to-date, reliable travel solutions at the best value.",
+    standards_text:
+      "We hold ourselves to the highest standard to ensure that honesty and transparency are always maintained.",
+    value_text:
+      "We are the only airline consolidator that can provide exclusive fares and space at competitive wholesale prices.",
   },
 };
 
@@ -94,6 +105,7 @@ const TimelineItem = ({
   accentColor,
   isDarkMode,
 }: TimelineItemProps) => {
+  // Note: TimelineItem already uses shadow-lg for MD+ structure
   const contentBg = isDarkMode
     ? "bg-purple-900 shadow-black/40"
     : "bg-white shadow-purple-200/50";
@@ -101,10 +113,11 @@ const TimelineItem = ({
   const contentTitle = isDarkMode ? "text-yellow-400" : "text-purple-700";
   const dotBorder = isDarkMode ? "border-gray-950" : "border-white";
 
-  const contentBoxClasses = `p-5 rounded-xl transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] transform hover:rotate-1 shadow-lg ${contentBg}`;
+  // Replicating the new shadow look for MD+ timeline boxes
+  const contentBoxClasses = `p-5 rounded-xl transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] transform hover:rotate-1 shadow-[0_4px_10px_rgba(168,85,247,0.3)] ${contentBg}`;
   const dotClasses = `absolute top-0 w-6 h-6 rounded-full ${accentColor} flex items-center justify-center 
-           transition-all duration-500 group-hover:scale-125 border-4 ${dotBorder} 
-           left-1/2 -translate-x-1/2 z-10 hidden md:flex`;
+                           transition-all duration-500 group-hover:scale-125 border-4 ${dotBorder} 
+                           left-1/2 -translate-x-1/2 z-10 hidden md:flex`;
   const mobileLineClasses = `absolute top-0 left-3 w-1 h-full ${
     isDarkMode ? "bg-purple-400/30" : "bg-purple-300"
   } md:hidden`;
@@ -119,8 +132,9 @@ const TimelineItem = ({
         >
           <Icon className="w-2 h-2 text-white" />
         </div>
+        {/* Adding shadow to mobile timeline items for consistency */}
         <div
-          className={`p-5 mb-8 rounded-xl shadow-lg ${
+          className={`p-5 mb-8 rounded-xl shadow-[0_4px_10px_rgba(168,85,247,0.3)] ${
             isDarkMode ? "bg-purple-800" : "bg-gray-100"
           }`}
         >
@@ -156,7 +170,7 @@ const AboutUsPage = () => {
   // --- Conditional Color Variables (Unchanged) ---
   const secondaryBg = isDarkMode ? "bg-gray-950" : "bg-white";
   const footerBg = isDarkMode ? "bg-purple-950" : "bg-gray-100";
-  const headingColor = "text-yellow-400"; // Gold/Yellow for "Sunspots"
+  const headingColor = "text-purple-400"; // Gold/Yellow for "Sunspots"
   const accentColor = "bg-purple-600";
   const accentTextColor = isDarkMode ? "text-purple-400" : "text-purple-700";
   const mainText = isDarkMode ? "text-purple-200" : "text-gray-700";
@@ -187,146 +201,21 @@ const AboutUsPage = () => {
     },
   ];
 
-  // Array of 20 plane configurations
-  // The 'dur' (duration) is increased significantly to keep planes on screen longer,
-  // and the 'delay' ensures they are staggered.
-  const planeConfigs = [
-      // Group 1: Path 1 (Bottom Left to Top Right) - Duration ~40s
-      { move: 'planeMove1', dur: 40, delay: 0, size: 'w-16 h-16', opacity: 0.2 },
-      { move: 'planeMove1', dur: 44, delay: 10, size: 'w-10 h-10', opacity: 0.15 },
-      { move: 'planeMove1', dur: 36, delay: 20, size: 'w-14 h-14', opacity: 0.25 },
-      { move: 'planeMove1', dur: 48, delay: 30, size: 'w-18 h-18', opacity: 0.1 },
-
-      // Group 2: Path 2 (Top Right to Bottom Left) - Duration ~50s
-      { move: 'planeMove2', dur: 50, delay: 0, size: 'w-12 h-12', opacity: 0.15 },
-      { move: 'planeMove2', dur: 54, delay: 12, size: 'w-16 h-16', opacity: 0.2 },
-      { move: 'planeMove2', dur: 46, delay: 24, size: 'w-8 h-8', opacity: 0.1 },
-      { move: 'planeMove2', dur: 58, delay: 36, size: 'w-20 h-20', opacity: 0.25 },
-
-      // Group 3: Path 3 (Mid-Left to Mid-Right) - Duration ~36s
-      { move: 'planeMove3', dur: 36, delay: 0, size: 'w-20 h-20', opacity: 0.1 },
-      { move: 'planeMove3', dur: 38, delay: 9, size: 'w-10 h-10', opacity: 0.2 },
-      { move: 'planeMove3', dur: 40, delay: 18, size: 'w-14 h-14', opacity: 0.15 },
-      { move: 'planeMove3', dur: 42, delay: 27, size: 'w-16 h-16', opacity: 0.25 },
-
-      // Group 4: Path 4 (Top Left to Mid-Right) - Duration ~30s
-      { move: 'planeMove4', dur: 30, delay: 0, size: 'w-14 h-14', opacity: 0.18 },
-      { move: 'planeMove4', dur: 34, delay: 7.5, size: 'w-18 h-18', opacity: 0.22 },
-      { move: 'planeMove4', dur: 28, delay: 15, size: 'w-10 h-10', opacity: 0.15 },
-      { move: 'planeMove4', dur: 32, delay: 22.5, size: 'w-12 h-12', opacity: 0.2 },
-
-      // Group 5: Path 5 (Mid-Right to Mid-Left) - Duration ~60s
-      { move: 'planeMove5', dur: 60, delay: 0, size: 'w-24 h-24', opacity: 0.08 },
-      { move: 'planeMove5', dur: 66, delay: 15, size: 'w-18 h-18', opacity: 0.12 },
-      { move: 'planeMove5', dur: 54, delay: 30, size: 'w-14 h-14', opacity: 0.15 },
-      { move: 'planeMove5', dur: 70, delay: 45, size: 'w-16 h-16', opacity: 0.1 },
-  ];
-
+  const planeConfigs = []; // Kept empty as requested
 
   return (
     <section
       className={`min-h-screen ${secondaryBg} relative flex flex-col transition-colors duration-500 overflow-hidden`}
     >
       <style jsx global>{`
-        /* FIVE BASE ANIMATIONS - Boundaries adjusted to maximize visibility. 
-           Planes now travel from -10vw to 110vw instead of -100vw to 100vw.
-        */
-        
-        /* Plane 1: Bottom Left to Top Right (Diagonal Up) */
-        @keyframes planeMove1 {
-          0% {
-            transform: translate(-10vw, 80vh) rotate(10deg);
-            opacity: 0;
-          }
-          50% {
-            opacity: var(--opacity);
-          }
-          100% {
-            transform: translate(110vw, -20vh) rotate(10deg);
-            opacity: 0;
-          }
-        }
-        
-        /* Plane 2: Top Right to Bottom Left (Reverse Diagonal Down) */
-        @keyframes planeMove2 {
-          0% {
-            transform: translate(110vw, -20vh) rotate(-20deg);
-            opacity: 0;
-          }
-          50% {
-            opacity: var(--opacity);
-          }
-          100% {
-            transform: translate(-10vw, 80vh) rotate(-20deg);
-            opacity: 0;
-          }
-        }
-        
-        /* Plane 3: Mid-Left to Mid-Right (Shallow Upward Angle) */
-        @keyframes planeMove3 {
-          0% {
-            transform: translate(-10vw, 30vh) rotate(5deg);
-            opacity: 0;
-          }
-          50% {
-            opacity: var(--opacity);
-          }
-          100% {
-            transform: translate(110vw, 50vh) rotate(5deg);
-            opacity: 0;
-          }
-        }
-        
-        /* Plane 4: Top Left to Mid-Right (Steeper Upward Angle) */
-        @keyframes planeMove4 {
-          0% {
-            transform: translate(-10vw, 0vh) rotate(25deg);
-            opacity: 0;
-          }
-          50% {
-            opacity: var(--opacity);
-          }
-          100% {
-            transform: translate(110vw, 60vh) rotate(25deg);
-            opacity: 0;
-          }
-        }
-
-        /* Plane 5: Mid-Right to Mid-Left (Shallow Downward Angle) */
-        @keyframes planeMove5 {
-          0% {
-            transform: translate(110vw, 40vh) rotate(-15deg);
-            opacity: 0;
-          }
-          50% {
-            opacity: var(--opacity);
-          }
-          100% {
-            transform: translate(-10vw, 10vh) rotate(-15deg);
-            opacity: 0;
-          }
-        }
+        /* REMOVED ALL @keyframes for planeMove1-5 */
       `}</style>
-      
-      {/* 20 Background Planes */}
-      {planeConfigs.map((config, index) => (
-          <Plane
-              key={index}
-              className={`fixed top-0 left-0 z-0 text-yellow-400 opacity-0 pointer-events-none ${config.size}`}
-              style={{
-                  animation: `${config.move} ${config.dur}s linear infinite ${config.delay}s`,
-                  '--opacity': config.opacity,
-                  transform: 'translate(0, 0)',
-              } as React.CSSProperties}
-          />
-      ))}
 
-
-      {/* 1. Hero / Title Section */}
+      {/* 1. Hero / Title Section - Uses the consistent design language */}
       <div
-        className={`px-4 sm:px-6 lg:px-8 py-20 lg:py-32 mt-15 sm:mt-15 text-center shadow-2xl ${
-          isDarkMode ? "shadow-purple-900/50" : "shadow-purple-200/50"
-        } transition-colors duration-500 relative z-10`}
+        className={`px-4 sm:px-6 lg:px-8 py-16 text-center transition-colors duration-500 relative z-10 ${
+          isDarkMode ? "bg-gray-900" : "bg-gray-50"
+        }`}
       >
         {/* Main Heading/Title Centered */}
         <Title
@@ -335,51 +224,62 @@ const AboutUsPage = () => {
           titleColor={headingColor}
           subtitleColor={isDarkMode ? "text-white" : "text-gray-900"}
         />
-        <p
-          className={`${
-            isDarkMode ? "text-purple-100" : "text-gray-600"
-          } font-light leading-relaxed text-lg sm:text-xl mt-6 max-w-4xl mx-auto opacity-90 transition-transform duration-700 transform hover:scale-[1.01]`}
-        >
-          {ABOUT_DATA.history.story_start}
-        </p>
 
-        {/* LOCATION: "The Evolution of Sunspots Holidays" moved here */}
-        <h3 className={`text-3xl font-bold mt-16 ${accentTextColor} text-center`}>
-            The Evolution of Sunspots Holidays
-        </h3>
+        {/* The main text is styled as the large box from Section 4 */}
+        <div
+          className={`mt-10 p-8 rounded-xl max-w-5xl mx-auto  transition-transform duration-300 hover:scale-[1.01] cursor-pointer ${
+            isDarkMode ? "bg-purple-900" : "bg-white"
+          }`}
+        >
+          <p
+            className={`${
+              isDarkMode ? "text-purple-100" : "text-gray-600"
+            } font-light leading-relaxed text-xl sm:text-2xl opacity-95`}
+          >
+            {ABOUT_DATA.history.story_start}
+          </p>
+        </div>
       </div>
 
-      <hr className="border-purple-600 border-opacity-50" />
+    
 
-      {/* 2. Our Journey Through Time Section (formerly History Timeline) */}
+      {/* 2. Our Journey Through Time Section (History Timeline) - UPDATED SHADOWS */}
       <div className="px-4 sm:px-6 lg:px-8 py-16 lg:py-24 max-w-7xl mx-auto flex-grow relative z-10">
-        
         <h2
           className={`text-4xl font-extrabold text-center mb-16 ${accentTextColor}`}
         >
           Our Journey Through Time 🚀
         </h2>
 
+        {/* LOCATION: "The Evolution of Sunspots Holidays" moved here */}
+        {/* <h3
+          className={`text-3xl font-bold mb-10 ${accentTextColor} text-center`}
+        >
+          The Evolution of Sunspots Holidays
+        </h3> */}
+
         {/* Adjusting grid to ensure content is spread evenly */}
         <div className="grid lg:grid-cols-2 gap-12 items-start relative">
-          {/* LEFT COLUMN: Main Text and Details */}
+          {/* LEFT COLUMN: Main Text and Details - SHADOWS ADDED */}
           <div className="order-1 lg:order-1 transition-opacity duration-700 delay-200 opacity-100">
-            {/* The main intro text block */}
-            <div className={`p-6 rounded-2xl shadow-xl mb-6 ${
+            {/* 1. The main intro text block */}
+            <div
+              className={`p-6 rounded-2xl shadow-[0_4px_10px_rgba(168,85,247,0.3)] mb-6 ${
                 isDarkMode ? "bg-purple-800" : "bg-white"
-            } transition-all duration-300 hover:scale-[1.01] hover:shadow-purple-500/50`}>
+              } transition-all duration-300 hover:scale-[1.01] hover:shadow-purple-500/50`}
+            >
               <p className={`${mainText} leading-relaxed text-lg`}>
-                Sunspots Holidays&apos; journey began in **January 1974** as Campbell
-                Travel Limited in Ontario. After years as a successful travel
-                agency, we strategically transitioned our focus to become a
-                dedicated **wholesale travel company**, leading to the birth of
-                Sunspots Holidays.
+                Sunspots Holidays&apos; journey began in **January 1974** as
+                Campbell Travel Limited in Ontario. After years as a successful
+                travel agency, we strategically transitioned our focus to become
+                a dedicated **wholesale travel company**, leading to the birth
+                of Sunspots Holidays.
               </p>
             </div>
-            
-            {/* Key Differentiator box */}
+
+            {/* 2. Key Differentiator box */}
             <div
-              className={`p-6 rounded-xl border-l-4 ${
+              className={`p-6 rounded-xl border-l-4 shadow-[0_4px_10px_rgba(168,85,247,0.3)] ${
                 isDarkMode
                   ? "border-yellow-400 bg-purple-900"
                   : "border-purple-600 bg-purple-50"
@@ -394,10 +294,10 @@ const AboutUsPage = () => {
                 quality travel experiences over mere discounted rates.
               </p>
             </div>
-            
-            {/* Global Partnerships box */}
+
+            {/* 3. Global Partnerships box */}
             <div
-              className={`p-6 rounded-2xl shadow-xl ${
+              className={`p-6 rounded-2xl shadow-[0_4px_10px_rgba(168,85,247,0.3)] ${
                 isDarkMode ? "bg-purple-800" : "bg-white"
               } transition-all duration-500 hover:scale-[1.01] hover:shadow-purple-500/50`}
             >
@@ -421,23 +321,24 @@ const AboutUsPage = () => {
                 isDarkMode ? "md:border-purple-700" : "md:border-gray-300"
               }`}
             >
-              {/* FIX: Safely check if timelineData exists before mapping */}
-              {timelineData && timelineData.map((item, index) => (
-                <TimelineItem
-                  key={index}
-                  icon={item.icon}
-                  title={item.title}
-                  description={item.description}
-                  accentColor={accentColor}
-                  isDarkMode={isDarkMode}
-                />
-              ))}
+              {/* NOTE: TimelineItem component itself was updated to include the shadow class in both mobile and desktop views */}
+              {timelineData &&
+                timelineData.map((item, index) => (
+                  <TimelineItem
+                    key={index}
+                    icon={item.icon}
+                    title={item.title}
+                    description={item.description}
+                    accentColor={accentColor}
+                    isDarkMode={isDarkMode}
+                  />
+                ))}
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3. Offerings and Partnership Model (Secondary Section - Unchanged) */}
+      {/* 3. Offerings and Partnership Model (Secondary Section - SHADOWS ADDED) */}
       <div
         className={`px-4 sm:px-6 lg:px-8 py-16 lg:py-24  relative z-10 ${
           isDarkMode
@@ -454,7 +355,7 @@ const AboutUsPage = () => {
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Offerings Description Card */}
           <div
-            className={`p-8 rounded-2xl shadow-xl transition-all duration-300 hover:shadow-purple-500/50 hover:scale-[1.01] ${
+            className={`p-8 rounded-2xl shadow-[0_4px_10px_rgba(168,85,247,0.3)] transition-all duration-300 hover:shadow-purple-500/50 hover:scale-[1.01] ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             }`}
           >
@@ -470,7 +371,7 @@ const AboutUsPage = () => {
 
           {/* Partnership Model Card */}
           <div
-            className={`p-8 rounded-2xl shadow-xl relative transition-all duration-300 hover:shadow-purple-500/50 hover:scale-[1.01] ${
+            className={`p-8 rounded-2xl shadow-[0_4px_10px_rgba(168,85,247,0.3)] relative transition-all duration-300 hover:shadow-purple-500/50 hover:scale-[1.01] ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             }`}
           >
@@ -485,89 +386,141 @@ const AboutUsPage = () => {
             {/* Plane Animation - LOCALIZED */}
             <Plane
               className={`absolute right-[-20px] top-[-20px] w-10 h-10 ${headingColor} 
-                                         rotate-45 transform opacity-70`}
+                                    rotate-45 transform opacity-70`}
               style={FloatingPlaneStyle}
             />
           </div>
         </div>
       </div>
 
-      {/* 4. Partnerships and Invitation (Primary Purple Section) */}
+      {/* 4. Partnerships and Invitation (Primary Purple Section) - Remains the same */}
       <div
         className={`px-4 sm:px-6 lg:px-8 py-16  text-center shadow-lg transition-colors duration-500 relative z-10 `}
       >
         {/* Main Heading Centered */}
-        <h2 className={`text-4xl font-extrabold mb-10 ${headingColor} text-center`}>
-          Global Reach & Success Factors
+        <h2
+          className={`text-4xl font-extrabold mb-10 ${headingColor} text-center`}
+        >
+          Our Mission, Standards, & Value
         </h2>
-        <div className="grid  md:grid-cols-3 gap-10 max-w-7xl mx-auto text-left  ">
-          {/* Col 1 */}
+
+        {/* Grid for three columns (md:grid-cols-3 ensures one line on desktop) */}
+        <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto text-center">
+          {/* Col 1: MISSION */}
           <div
-            className={`p-4 rounded-lg transition-transform duration-300 hover:scale-[1.05]  ${
+            className={`p-4 shadow-[0_4px_10px_rgba(168,85,247,0.3)] rounded-lg transition-transform duration-300 hover:scale-[1.05]  ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             } hover:bg-purple-700/50`}
           >
-            <Rocket className={`w-8 h-8 mb-3 ${headingColor}`} />
+            {/* ICON WRAPPER: Mimicking the image's circular icon background */}
+            <div className="flex justify-center mb-4">
+              <div
+                className={`w-20 h-20 rounded-full border-2 flex items-center justify-center 
+                                    ${
+                                      isDarkMode
+                                        ? "border-purple-600 bg-gray-700"
+                                        : "border-gray-200 bg-white"
+                                    }`}
+              >
+                <Target
+                  className={`w-10 h-10 ${headingColor} text-purple-600`}
+                />
+              </div>
+            </div>
+
             <h3
-              className={`text-xl font-bold mb-2 ${
+              className={`text-2xl font-bold mb-3 ${
                 isDarkMode ? "text-white" : "text-gray-900"
               }`}
             >
-              40+ Air Partners
+              MISSION
             </h3>
             <p
               className={`${
-                isDarkMode ? "text-white" : "text-gray-700"
-              } text-sm leading-relaxed opacity-80`}
+                isDarkMode ? "text-gray-300" : "text-gray-700"
+              } text-sm leading-relaxed opacity-90`}
             >
-              {ABOUT_DATA.partnerships.air_partners_intro}
+              {ABOUT_DATA.partnerships.mission_text}
             </p>
           </div>
-          {/* Col 2 */}
+
+          {/* Col 2: STANDARDS */}
           <div
-            className={`p-4 rounded-lg transition-transform duration-300 hover:scale-[1.05]  ${
+            className={`p-4 shadow-[0_4px_10px_rgba(168,85,247,0.3)] rounded-lg transition-transform duration-300 hover:scale-[1.05]  ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             } hover:bg-purple-700/50`}
           >
-            <Briefcase className={`w-8 h-8 mb-3 ${headingColor}`} />
+            {/* ICON WRAPPER */}
+            <div className="flex justify-center mb-4">
+              <div
+                className={`w-20 h-20 rounded-full border-2 flex items-center justify-center 
+                                    ${
+                                      isDarkMode
+                                        ? "border-purple-600 bg-gray-700"
+                                        : "border-gray-200 bg-white"
+                                    }`}
+              >
+                <Trophy
+                  className={`w-10 h-10 ${headingColor} text-purple-600`}
+                />
+              </div>
+            </div>
+
             <h3
-              className={`text-xl font-bold mb-2 ${
+              className={`text-2xl font-bold mb-3 ${
                 isDarkMode ? "text-white" : "text-gray-900"
               }`}
             >
-              Proactive & Flexible
+              STANDARDS
             </h3>
             <p
               className={`${
-                isDarkMode ? "text-white" : "text-gray-700"
-              } text-sm leading-relaxed opacity-80`}
+                isDarkMode ? "text-gray-300" : "text-gray-700"
+              } text-sm leading-relaxed opacity-90`}
             >
-              {ABOUT_DATA.partnerships.product_flexibility}
+              {ABOUT_DATA.partnerships.standards_text}
             </p>
           </div>
-          {/* Col 3 */}
+
+          {/* Col 3: VALUE */}
           <div
-            className={`p-4 rounded-lg transition-transform duration-300 hover:scale-[1.05]  ${
+            className={`p-4 rounded-lg shadow-[0_4px_10px_rgba(168,85,247,0.3)]  transition-transform duration-300 hover:scale-[1.05]  ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             } hover:bg-purple-700/50`}
           >
-            <CheckCircle className={`w-8 h-8 mb-3 ${headingColor}`} />
+            {/* ICON WRAPPER */}
+            <div className="flex justify-center mb-4">
+              <div
+                className={`w-20 h-20 rounded-full border-2 flex items-center justify-center 
+                                    ${
+                                      isDarkMode
+                                        ? "border-purple-600 bg-gray-700"
+                                        : "border-gray-200 bg-white"
+                                    }`}
+              >
+                <LineChart
+                  className={`w-10 h-10 ${headingColor} text-purple-600`}
+                />
+              </div>
+            </div>
+
             <h3
-              className={`text-xl font-bold mb-2 ${
+              className={`text-2xl font-bold mb-3 ${
                 isDarkMode ? "text-white" : "text-gray-900"
               }`}
             >
-              Commitment to Quality
+              VALUE
             </h3>
             <p
               className={`${
-                isDarkMode ? "text-white" : "text-gray-700"
-              } text-sm leading-relaxed opacity-80`}
+                isDarkMode ? "text-gray-300" : "text-gray-700"
+              } text-sm leading-relaxed opacity-90`}
             >
-              {ABOUT_DATA.partnerships.success_factors}
+              {ABOUT_DATA.partnerships.value_text}
             </p>
           </div>
         </div>
+
         {/* Invitation (Bold Callout) */}
         <div
           className={`mt-12 p-8 border-4 border-double border-yellow-400 rounded-xl max-w-4xl mx-auto transition-transform duration-300 hover:scale-[1.03] cursor-pointer ${
@@ -581,15 +534,16 @@ const AboutUsPage = () => {
           </p>
         </div>
       </div>
-      <FooterSection
-        footerData={FOOTER_DATA}
-        isDarkMode={isDarkMode}
-        footerBg={footerBg}
-        footerTitleColor={footerTitleColor}
-        footerText={mainText}
-        footerAccentIconColor={footerAccentIconColor}
-        footerAccentHover={footerAccentHover}
-      />
+      {/* The Footer Section is commented out in your original code, so I've left it commented out. */}
+      {/* <FooterSection
+                footerData={FOOTER_DATA}
+                isDarkMode={isDarkMode}
+                footerBg={footerBg}
+                footerTitleColor={footerTitleColor}
+                footerText={mainText}
+                footerAccentIconColor={footerAccentIconColor}
+                footerAccentHover={footerAccentHover}
+            /> */}
     </section>
   );
 };

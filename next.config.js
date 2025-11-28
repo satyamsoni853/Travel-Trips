@@ -7,6 +7,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'sunspotsholidays.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'imgs.search.brave.com',
+      },
     ],
   },
 }

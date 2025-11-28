@@ -115,7 +115,7 @@ const Destination = () => {
   const { isDarkMode } = useTheme();
 
   // Determine the background color for the main section
-  const sectionBgClass = isDarkMode ? "bg-gray-900" : "bg-gray-50"; // Use light gray in light mode for a subtle lift
+  const sectionBgClass = isDarkMode ? "bg-gray-900" : "bg-white";
 
   // Title colors
   const titleColor = isDarkMode ? "text-white" : "text-gray-900";

@@ -3,7 +3,10 @@ import React, { useState, ReactNode } from "react";
 import Image from "next/image";
 
 // Utility component for subtle animation (Fade-in/Slide-up)
-const AnimatedDiv: React.FC<{ children: ReactNode; delay?: string }> = ({ children, delay = "delay-0" }) => (
+const AnimatedDiv: React.FC<{ children: ReactNode; delay?: string }> = ({
+  children,
+  delay = "delay-0",
+}) => (
   <div
     className={`opacity-0 animate-fadeInUp ${delay} transition-all duration-700 ease-out`}
   >
@@ -12,19 +15,18 @@ const AnimatedDiv: React.FC<{ children: ReactNode; delay?: string }> = ({ childr
 );
 
 const TravelPoint = () => {
-  // Define the correct image source here
-  // Update: use an existing file from `public/` so Next.js `Image` can load it
-  const IMAGE_SRC = "/travel-point-section.png"; // actual file found in `public/`
+  
+  const IMAGE_SRC = "/airplane.jpg"; // actual file found in `public/`
 
   return (
-    <section className="relative max-w-7xl mx-auto px-6 py-24 overflow-hidden dark:bg-gray-900 transition-colors duration-500">
+    <section className="relative max-w-7xl mx-auto px-6 py-5 mb-10 overflow-hidden dark:bg-gray-900 transition-colors duration-500">
       <div className="flex flex-col lg:flex-row items-center gap-20">
         {/* LEFT — Large Image */}
         <div className="relative w-full lg:w-1/2 flex justify-center lg:justify-start transform translate-x-[-20px] opacity-0 animate-slideInLeft transition-all duration-1000 ease-out">
           <div className="relative w-full max-w-[650px] h-[520px] rounded-[35px] overflow-hidden shadow-2xl">
             {/* APPLYING THE FIX HERE */}
             <Image
-              src={IMAGE_SRC} 
+              src={IMAGE_SRC}
               alt="Travel destination"
               fill
               className="object-cover"
@@ -55,8 +57,8 @@ const TravelPoint = () => {
 
               <p className="text-lg text-gray-600 leading-relaxed max-w-xl dark:text-gray-300">
                 Discover beautiful places and exclusive holiday packages crafted
-                to give you unforgettable experiences. We are dedicated to making
-                your travel dreams a reality.
+                to give you unforgettable experiences. We are dedicated to
+                making your travel dreams a reality.
               </p>
             </div>
           </AnimatedDiv>
