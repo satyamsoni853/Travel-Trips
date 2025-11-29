@@ -91,7 +91,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ data, isDarkMode, reverse, ac
             <div className={reverse ? 'md:order-1' : 'md:order-2'}>
                 <div className={`p-8 rounded-xl ${cardBg} transition-shadow duration-500 hover:shadow-purple-500/50`}>
                     <data.icon className={`w-10 h-10 mb-4 ${iconColor}`} />
-                    <h2 className={`text-3xl font-extrabold mb-4 ${titleColor}`}>{data.title}</h2>
+                    <h2 className={`text-4xl font-extrabold mb-4 ${titleColor}`}>{data.title}</h2>
                     <p className={`text-lg mb-6 ${textColor}`}>{data.description}</p>
                     
                     <ul className={`space-y-2 ${textColor}`}>

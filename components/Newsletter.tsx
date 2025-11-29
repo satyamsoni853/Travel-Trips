@@ -41,7 +41,7 @@ const Newsletter = () => {
                 Sunspots Newsletter
               </span>
 
-              <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+              <h1 className="text-4xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
                 Discover Your Next Adventure
               </h1>
 

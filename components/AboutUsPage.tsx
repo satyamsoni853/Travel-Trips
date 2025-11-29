@@ -253,7 +253,7 @@ const AboutUsPage = () => {
 
         {/* LOCATION: "The Evolution of Sunspots Holidays" moved here */}
         {/* <h3
-          className={`text-3xl font-bold mb-10 ${accentTextColor} text-center`}
+          className={`text-4xl font-bold mb-10 ${accentTextColor} text-center`}
         >
           The Evolution of Sunspots Holidays
         </h3> */}
@@ -528,7 +528,7 @@ const AboutUsPage = () => {
           }`}
         >
           <p
-            className={`text-2xl sm:text-3xl font-extrabold ${accentTextColor}`}
+            className={`text-2xl sm:text-4xl font-extrabold ${accentTextColor}`}
           >
             {ABOUT_DATA.partnerships.invitation}
           </p>

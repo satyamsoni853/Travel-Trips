@@ -23,15 +23,17 @@ const config: Config = {
         '2xl': '1536px',
       },
     },
-    extend: {
-      // 💡 ADDED: Custom color pallet for branding consistency 💡
-      colors: {
-        sunspots: {
-          blue: '#1e40af', // Darker Blue (for primary background/accents)
-          amber: '#f59e0b', // Amber/Orange (for accent headings/highlights)
-        },
-      },
-      keyframes: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+          // 💡 ADDED: Custom color pallet for branding consistency 💡
+          colors: {
+            sunspots: {
+              blue: '#1e40af', // Darker Blue (for primary background/accents)
+              amber: '#f59e0b', // Amber/Orange (for accent headings/highlights)
+            },
+          },      keyframes: {
         // Existing large-scale animation
         'plane-fly': {
           '0%': { transform: 'translateX(-100vw) translateY(50px) rotate(45deg)', opacity: '0.1' },

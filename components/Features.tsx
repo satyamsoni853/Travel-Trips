@@ -103,7 +103,7 @@ const Features = () => {
 
       {/* PARTNERS SECTION (No changes needed) */}
       <div className={`mt-12 w-full rounded-3xl p-8 md:p-12 ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white shadow-gray-200/50'} shadow-md transition-all duration-500`}>
-        <h2 className={`mb-8 text-center text-3xl font-bold md:text-4xl ${isDarkMode ? 'text-gray-100' : 'text-[#0b3b82]'}`}>
+        <h2 className={`mb-8 text-center text-4xl font-bold md:text-4xl ${isDarkMode ? 'text-gray-100' : 'text-[#0b3b82]'}`}>
           Our Trusted Land Partners
         </h2>
         <div className="flex items-center justify-center">
