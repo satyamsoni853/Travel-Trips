@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import {
   Plane,
@@ -14,14 +14,25 @@ import {
   Mail,
   Twitter,
   Facebook,
-  Link as LinkIcon, // Renaming Lucide Link to LinkIcon to avoid conflict with React Link component
-  Target, // Added Target icon
-  Trophy, // Added Trophy icon
-  LineChart, // Using LineChart instead of Link for better visual representation
+  Link as LinkIcon,
+  Target,
+  Trophy,
+  LineChart,
+  ChevronLeft, // Added for carousel controls
+  ChevronRight, // Added for carousel controls
 } from "lucide-react";
 import { useTheme } from "../app/ThemeContext";
 import Title from "./Title"; // Assuming this is components/Title.tsx
 import FooterSection from "./FooterSection";
+// Image paths from the public directory
+const AboutPageCaursal1 = "/AboutPageCaursal1.jpg";
+const AboutPageCaursal2 = "/AboutPageCaursal2.jpg";
+const AboutPageCaursal3 = "/AboutPageCaursal3.jpg";
+const AboutPageCaursal4 = "/AboutPageCaursal4.jpg";
+const AboutPageCaursal5 = "/AboutPageCaursal5.jpg";
+const AboutPageCaursal6 = "/AboutPageCaursal6.jpg";
+const AboutPageCaursal8 = "/AboutPageCaursal8.jpg";
+const AboutPageCaursal9 = "/AboutPageCaursal9.jpg";
 
 // --- Data in JSON format (Included for reference) ---
 const ABOUT_DATA = {
@@ -89,6 +100,112 @@ const FloatingPlaneStyle = {
   animation: "float 4s ease-in-out infinite",
 };
 
+// --- Simple Carousel Component ---
+type SimpleCarouselProps = {
+  images: any[]; // Expects an array of imported image modules
+  altText: string;
+  isDarkMode: boolean;
+  interval?: number; // Time in ms for auto-advance
+  showTitleOverlay?: boolean; // NEW PROP for the overlay title
+};
+
+const SimpleCarousel = ({
+  images,
+  altText,
+  isDarkMode,
+  interval = 4000,
+  showTitleOverlay = false, // Default to false
+}: SimpleCarouselProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  }, [images.length]);
+
+  const prevSlide = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
+  };
+
+  // Auto-advance logic
+  useEffect(() => {
+    const timer = setInterval(nextSlide, interval);
+    return () => clearInterval(timer);
+  }, [nextSlide, interval]);
+
+  if (images.length === 0) return null;
+
+  const buttonClass = `absolute top-1/2 transform -translate-y-1/2 p-3 rounded-full bg-black/30 text-white 
+             hover:bg-black/60 transition-all duration-300 z-20 focus:outline-none 
+             ${isDarkMode ? "bg-white/10" : "bg-black/30"}`;
+
+  const imageContainerClasses = `w-full h-full relative overflow-hidden transition-opacity duration-700`;
+
+  return (
+    <div className="relative w-full overflow-hidden group">
+      
+      {/* Title Overlay (Conditional) */}
+      {showTitleOverlay && (
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          {/* Dark overlay for better text contrast */}
+          <div className="absolute inset-0 bg-black/30"></div> 
+          <h1 className="text-5xl md:text-7xl font-extrabold text-white z-20 drop-shadow-lg tracking-wider">
+            About Us
+          </h1>
+        </div>
+      )}
+
+      {/* Image Display */}
+      <div
+        className={imageContainerClasses}
+        style={{ height: "60vh", minHeight: "400px" /* Use VH for full screen look */ }}
+      >
+        <Image
+          src={images[currentIndex]}
+          alt={`${altText} ${currentIndex + 1}`}
+          layout="fill"
+          objectFit="cover" // Ensures the image fully covers the container
+          priority // Prioritize loading the first carousel item
+          className="transition-opacity duration-700 ease-in-out"
+        />
+      </div>
+
+      {/* Controls - Only visible on hover/focus on MD+ */}
+      <button
+        onClick={prevSlide}
+        className={`${buttonClass} left-4 opacity-0 group-hover:opacity-100 md:opacity-100`}
+        aria-label="Previous image"
+      >
+        <ChevronLeft size={24} />
+      </button>
+      <button
+        onClick={nextSlide}
+        className={`${buttonClass} right-4 opacity-0 group-hover:opacity-100 md:opacity-100`}
+        aria-label="Next image"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      {/* Dots for navigation */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+              index === currentIndex
+                ? "bg-purple-400 scale-125"
+                : "bg-white/50 hover:bg-white/80"
+            }`}
+            aria-label={`Go to image ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // --- Timeline Item Component (Unchanged) ---
 type TimelineItemProps = {
   icon: React.ComponentType<any>;
@@ -104,8 +221,7 @@ const TimelineItem = ({
   description,
   accentColor,
   isDarkMode,
-}: TimelineItemProps) => {
-  // Note: TimelineItem already uses shadow-lg for MD+ structure
+}: TimelineItemProps) => { // Fixed type here
   const contentBg = isDarkMode
     ? "bg-purple-900 shadow-black/40"
     : "bg-white shadow-purple-200/50";
@@ -113,11 +229,10 @@ const TimelineItem = ({
   const contentTitle = isDarkMode ? "text-yellow-400" : "text-purple-700";
   const dotBorder = isDarkMode ? "border-gray-950" : "border-white";
 
-  // Replicating the new shadow look for MD+ timeline boxes
   const contentBoxClasses = `p-5 rounded-xl transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] transform hover:rotate-1 shadow-[0_4px_10px_rgba(168,85,247,0.3)] ${contentBg}`;
   const dotClasses = `absolute top-0 w-6 h-6 rounded-full ${accentColor} flex items-center justify-center 
-                           transition-all duration-500 group-hover:scale-125 border-4 ${dotBorder} 
-                           left-1/2 -translate-x-1/2 z-10 hidden md:flex`;
+                         transition-all duration-500 group-hover:scale-125 border-4 ${dotBorder} 
+                         left-1/2 -translate-x-1/2 z-10 hidden md:flex`;
   const mobileLineClasses = `absolute top-0 left-3 w-1 h-full ${
     isDarkMode ? "bg-purple-400/30" : "bg-purple-300"
   } md:hidden`;
@@ -132,7 +247,6 @@ const TimelineItem = ({
         >
           <Icon className="w-2 h-2 text-white" />
         </div>
-        {/* Adding shadow to mobile timeline items for consistency */}
         <div
           className={`p-5 mb-8 rounded-xl shadow-[0_4px_10px_rgba(168,85,247,0.3)] ${
             isDarkMode ? "bg-purple-800" : "bg-gray-100"
@@ -169,18 +283,10 @@ const AboutUsPage = () => {
 
   // --- Conditional Color Variables (Unchanged) ---
   const secondaryBg = isDarkMode ? "bg-gray-950" : "bg-white";
-  const footerBg = isDarkMode ? "bg-purple-950" : "bg-gray-100";
   const headingColor = "text-purple-400"; // Gold/Yellow for "Sunspots"
   const accentColor = "bg-purple-600";
   const accentTextColor = isDarkMode ? "text-purple-400" : "text-purple-700";
   const mainText = isDarkMode ? "text-purple-200" : "text-gray-700";
-  const footerTitleColor = isDarkMode ? headingColor : "text-purple-700";
-  const footerAccentIconColor = isDarkMode
-    ? "text-yellow-400"
-    : "text-purple-600";
-  const footerAccentHover = isDarkMode
-    ? "hover:text-yellow-400"
-    : "hover:text-purple-900";
 
   const timelineData = [
     {
@@ -201,7 +307,19 @@ const AboutUsPage = () => {
     },
   ];
 
-  const planeConfigs = []; // Kept empty as requested
+  // Images for the TOP Carousel (using 1, 2, 3)
+  const topCarouselImages = [
+    AboutPageCaursal1,
+    AboutPageCaursal2,
+    AboutPageCaursal3,
+        AboutPageCaursal4,
+    AboutPageCaursal5,
+    AboutPageCaursal6,
+    AboutPageCaursal8,
+    AboutPageCaursal9,
+  ];
+
+  
 
   return (
     <section
@@ -209,12 +327,31 @@ const AboutUsPage = () => {
     >
       <style jsx global>{`
         /* REMOVED ALL @keyframes for planeMove1-5 */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(45deg); }
+            50% { transform: translateY(-10px) rotate(45deg); }
+            100% { transform: translateY(0px) rotate(45deg); }
+        }
       `}</style>
-
-      {/* 1. Hero / Title Section - Uses the consistent design language */}
+      
+      {/* --- 1. TOP CAROUSEL SECTION WITH "About Us" TITLE OVERLAY --- */}
       <div
-        className={`px-4 sm:px-6 lg:px-8 py-16 text-center transition-colors duration-500 relative z-10 ${
-          isDarkMode ? "bg-gray-900" : "bg-gray-50"
+        className={`w-full relative transition-colors duration-500 z-20`}
+      >
+        <SimpleCarousel
+          images={topCarouselImages}
+          altText="Sunspots Holiday Destinations"
+          isDarkMode={isDarkMode}
+          showTitleOverlay={true} // Passed the new prop to show the title
+        />
+      </div>
+      {/* ------------------------------------------------------------- */}
+
+
+      {/* 2. Hero / Title Section (Now Below Carousel) */}
+      <div
+        className={` sm:px-6 lg:px-8 pt-5 text-center transition-colors duration-500 relative z-10 ${
+          isDarkMode ? "bg-black-900" : "bg-white-50"
         }`}
       >
         {/* Main Heading/Title Centered */}
@@ -227,7 +364,7 @@ const AboutUsPage = () => {
 
         {/* The main text is styled as the large box from Section 4 */}
         <div
-          className={`mt-10 p-8 rounded-xl max-w-5xl mx-auto  transition-transform duration-300 hover:scale-[1.01] cursor-pointer ${
+          className={`mt-10 p-2 rounded-xl max-w-5xl mx-auto transition-transform duration-300 hover:scale-[1.01] cursor-pointer ${
             isDarkMode ? "bg-purple-900" : "bg-white"
           }`}
         >
@@ -241,26 +378,16 @@ const AboutUsPage = () => {
         </div>
       </div>
 
-    
-
-      {/* 2. Our Journey Through Time Section (History Timeline) - UPDATED SHADOWS */}
+      {/* 3. Our Journey Through Time Section (History Timeline) */}
       <div className="px-4 sm:px-6 lg:px-8 py-16 lg:py-24 max-w-7xl mx-auto flex-grow relative z-10">
         <h2
-          className={`text-4xl font-extrabold text-center mb-16 ${accentTextColor}`}
+          className={`text-4xl font-extrabold text-center mb-10 ${accentTextColor}`}
         >
           Our Journey Through Time 🚀
         </h2>
 
-        {/* LOCATION: "The Evolution of Sunspots Holidays" moved here */}
-        {/* <h3
-          className={`text-4xl font-bold mb-10 ${accentTextColor} text-center`}
-        >
-          The Evolution of Sunspots Holidays
-        </h3> */}
-
-        {/* Adjusting grid to ensure content is spread evenly */}
         <div className="grid lg:grid-cols-2 gap-12 items-start relative">
-          {/* LEFT COLUMN: Main Text and Details - SHADOWS ADDED */}
+          {/* LEFT COLUMN: Main Text and Details */}
           <div className="order-1 lg:order-1 transition-opacity duration-700 delay-200 opacity-100">
             {/* 1. The main intro text block */}
             <div
@@ -321,7 +448,6 @@ const AboutUsPage = () => {
                 isDarkMode ? "md:border-purple-700" : "md:border-gray-300"
               }`}
             >
-              {/* NOTE: TimelineItem component itself was updated to include the shadow class in both mobile and desktop views */}
               {timelineData &&
                 timelineData.map((item, index) => (
                   <TimelineItem
@@ -338,9 +464,9 @@ const AboutUsPage = () => {
         </div>
       </div>
 
-      {/* 3. Offerings and Partnership Model (Secondary Section - SHADOWS ADDED) */}
+      {/* 4. Offerings and Partnership Model (Secondary Section) */}
       <div
-        className={`px-4 sm:px-6 lg:px-8 py-16 lg:py-24  relative z-10 ${
+        className={`px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative z-10 ${
           isDarkMode
             ? "shadow-inner shadow-purple-950/50"
             : "shadow-inner shadow-gray-200/50"
@@ -386,16 +512,16 @@ const AboutUsPage = () => {
             {/* Plane Animation - LOCALIZED */}
             <Plane
               className={`absolute right-[-20px] top-[-20px] w-10 h-10 ${headingColor} 
-                                    rotate-45 transform opacity-70`}
+                             rotate-45 transform opacity-70`}
               style={FloatingPlaneStyle}
             />
           </div>
         </div>
       </div>
 
-      {/* 4. Partnerships and Invitation (Primary Purple Section) - Remains the same */}
+      {/* 5. Partnerships and Invitation (Primary Purple Section) */}
       <div
-        className={`px-4 sm:px-6 lg:px-8 py-16  text-center shadow-lg transition-colors duration-500 relative z-10 `}
+        className={`px-4 sm:px-6 lg:px-8 py-16 text-center shadow-lg transition-colors duration-500 relative z-10 `}
       >
         {/* Main Heading Centered */}
         <h2
@@ -408,7 +534,7 @@ const AboutUsPage = () => {
         <div className="grid md:grid-cols-3 gap-10 max-w-7xl mx-auto text-center">
           {/* Col 1: MISSION */}
           <div
-            className={`p-4 shadow-[0_4px_10px_rgba(168,85,247,0.3)] rounded-lg transition-transform duration-300 hover:scale-[1.05]  ${
+            className={`p-4 shadow-[0_4px_10px_rgba(168,85,247,0.3)] rounded-lg transition-transform duration-300 hover:scale-[1.05] ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             } hover:bg-purple-700/50`}
           >
@@ -416,11 +542,11 @@ const AboutUsPage = () => {
             <div className="flex justify-center mb-4">
               <div
                 className={`w-20 h-20 rounded-full border-2 flex items-center justify-center 
-                                    ${
-                                      isDarkMode
-                                        ? "border-purple-600 bg-gray-700"
-                                        : "border-gray-200 bg-white"
-                                    }`}
+                                   ${
+                                     isDarkMode
+                                       ? "border-purple-600 bg-gray-700"
+                                       : "border-gray-200 bg-white"
+                                   }`}
               >
                 <Target
                   className={`w-10 h-10 ${headingColor} text-purple-600`}
@@ -446,7 +572,7 @@ const AboutUsPage = () => {
 
           {/* Col 2: STANDARDS */}
           <div
-            className={`p-4 shadow-[0_4px_10px_rgba(168,85,247,0.3)] rounded-lg transition-transform duration-300 hover:scale-[1.05]  ${
+            className={`p-4 shadow-[0_4px_10px_rgba(168,85,247,0.3)] rounded-lg transition-transform duration-300 hover:scale-[1.05] ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             } hover:bg-purple-700/50`}
           >
@@ -454,11 +580,11 @@ const AboutUsPage = () => {
             <div className="flex justify-center mb-4">
               <div
                 className={`w-20 h-20 rounded-full border-2 flex items-center justify-center 
-                                    ${
-                                      isDarkMode
-                                        ? "border-purple-600 bg-gray-700"
-                                        : "border-gray-200 bg-white"
-                                    }`}
+                                   ${
+                                     isDarkMode
+                                       ? "border-purple-600 bg-gray-700"
+                                       : "border-gray-200 bg-white"
+                                   }`}
               >
                 <Trophy
                   className={`w-10 h-10 ${headingColor} text-purple-600`}
@@ -484,7 +610,7 @@ const AboutUsPage = () => {
 
           {/* Col 3: VALUE */}
           <div
-            className={`p-4 rounded-lg shadow-[0_4px_10px_rgba(168,85,247,0.3)]  transition-transform duration-300 hover:scale-[1.05]  ${
+            className={`p-4 rounded-lg shadow-[0_4px_10px_rgba(168,85,247,0.3)] transition-transform duration-300 hover:scale-[1.05] ${
               isDarkMode ? "bg-purple-800" : "bg-white"
             } hover:bg-purple-700/50`}
           >
@@ -492,11 +618,11 @@ const AboutUsPage = () => {
             <div className="flex justify-center mb-4">
               <div
                 className={`w-20 h-20 rounded-full border-2 flex items-center justify-center 
-                                    ${
-                                      isDarkMode
-                                        ? "border-purple-600 bg-gray-700"
-                                        : "border-gray-200 bg-white"
-                                    }`}
+                                   ${
+                                     isDarkMode
+                                       ? "border-purple-600 bg-gray-700"
+                                       : "border-gray-200 bg-white"
+                                   }`}
               >
                 <LineChart
                   className={`w-10 h-10 ${headingColor} text-purple-600`}
@@ -524,7 +650,7 @@ const AboutUsPage = () => {
         {/* Invitation (Bold Callout) */}
         <div
           className={`mt-12 p-8 border-4 border-double border-yellow-400 rounded-xl max-w-4xl mx-auto transition-transform duration-300 hover:scale-[1.03] cursor-pointer ${
-            isDarkMode ? "bg-purple-700/30" : "bg-purple-50"
+            isDarkMode ? "bg-white-700/30" : "bg-white-50"
           }`}
         >
           <p
@@ -534,16 +660,10 @@ const AboutUsPage = () => {
           </p>
         </div>
       </div>
-      {/* The Footer Section is commented out in your original code, so I've left it commented out. */}
-      {/* <FooterSection
-                footerData={FOOTER_DATA}
-                isDarkMode={isDarkMode}
-                footerBg={footerBg}
-                footerTitleColor={footerTitleColor}
-                footerText={mainText}
-                footerAccentIconColor={footerAccentIconColor}
-                footerAccentHover={footerAccentHover}
-            /> */}
+
+     
+
+      {/* The Footer Section remains commented out */}
     </section>
   );
 };
