@@ -147,26 +147,8 @@ const SpecialPackagesPage = () => {
   const accentColor = "text-purple-500";
   const textColor = isDarkMode ? "text-gray-300" : "text-gray-700";
 
-  // Custom CSS for animations
-  const ANIMATION_STYLES = `
-    @keyframes fadeInSlideUp {
-        0% { opacity: 0; transform: translateY(20px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fadeInSlideUp {
-        animation: fadeInSlideUp 0.7s ease-out forwards;
-    }
-    .delay-100 { animation-delay: 0.1s; }
-    .delay-200 { animation-delay: 0.2s; }
-    .delay-300 { animation-delay: 0.3s; }
-    .delay-400 { animation-delay: 0.4s; }
-    .delay-500 { animation-delay: 0.5s; }
-`;
-
   return (
     <div className={`min-h-screen ${mainBg} py-12 sm:py-24 transition-colors duration-500`}>
-        {/* Global Styles for Animation */}
-        <style jsx global>{ANIMATION_STYLES}</style>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
@@ -208,7 +190,6 @@ const SpecialPackagesPage = () => {
                         pkg={pkg} 
                         isDarkMode={isDarkMode} 
                         // Stagger the animation delay
-                        delay={`delay-${(index * 100) + 400}`} 
                     />
                 ))}
             </div>

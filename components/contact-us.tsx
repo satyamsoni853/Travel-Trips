@@ -34,14 +34,15 @@ const CONTACT_DATA = {
 };
 
 // --- Form State Management (Simulated Submission) ---
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 const useContactForm = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState<FormStatus>("idle"); // idle | loading | success | error
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | React.TextareaHTMLAttributes<HTMLTextAreaElement>['value']>) => {
-    // Cast event target value to string for compatibility with both input and textarea
-    const value = e.target.value as string;
-    setFormData({ ...formData, [e.target.name]: value });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
 
@@ -277,7 +278,7 @@ const ContactForm = ({ formData, status, handleChange, handleSubmit }: ReturnTyp
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={status === "loading" || status === "success"}
+            disabled={status === "loading"}
             className={`w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm transition duration-300 ${
               status === "loading"
                 ? "bg-purple-700 cursor-not-allowed"
